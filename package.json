@@ -1,0 +1,17 @@
+{
+  "name": "pi-cosmoshub-provider",
+  "version": "1.0.0",
+  "description": "CosmosHub provider bridge for pi coding agent - dynamic model discovery with verification logging",
+  "main": "index.ts",
+  "type": "module",
+  "keywords": ["pi", "coding-agent", "cosmoshub", "provider", "ai", "models"],
+  "author": "yanralapdy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanralapdy/pi-cosmoshub-provider.git"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.80.0"
+  }
+}
