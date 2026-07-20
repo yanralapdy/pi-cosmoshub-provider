@@ -19,8 +19,8 @@ async function fetchCosmosHubModels(apiKey: string): Promise<Array<{ id: string;
       const ownedBy = m.owned_by || "";
       // Reasoning models: opus, sonnet, pro, max, gpt-5.x variants
       const reasoning = id.includes("opus") || id.includes("sonnet") || id.includes("pro") || id.includes("max") || id.includes("gpt-5") || id.includes("qwen-3");
-      // Larger context for Claude/GPT models
-      const contextWindow = id.includes("claude") || id.includes("gpt-5") ? 200000 : 128000;
+      // Larger context for Gemini/Claude/GPT models
+      const contextWindow = id.includes("gemini") ? 2000000 : (id.includes("claude") || id.includes("gpt-5") ? 200000 : 128000);
       const maxTokens = reasoning ? 32768 : 8192;
 
       return {
