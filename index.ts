@@ -17,11 +17,61 @@ async function fetchCosmosHubModels(apiKey: string): Promise<Array<{ id: string;
     return rawModels.map((m: any) => {
       const id = m.id;
       const ownedBy = m.owned_by || "";
-      // Reasoning models: opus, sonnet, pro, max, gpt-5.x variants
-      const reasoning = id.includes("opus") || id.includes("sonnet") || id.includes("pro") || id.includes("max") || id.includes("gpt-5") || id.includes("qwen-3");
-      // Larger context for Gemini/Claude/GPT models
-      const contextWindow = id.includes("gemini") ? 2000000 : (id.includes("claude") || id.includes("gpt-5") ? 200000 : 128000);
-      const maxTokens = reasoning ? 32768 : 8192;
+      
+      let reasoning = false;
+      let contextWindow = 128000;
+      let maxTokens = 8192;
+
+      // Model specific configuration
+      if (id.includes("gemini-3.1-pro")) {
+        contextWindow = 1000000;
+        maxTokens = 65536; // 64K from model card
+        reasoning = true;
+      } else if (id.includes("gemini")) {
+        contextWindow = 2000000;
+        maxTokens = id.includes("thinking") ? 32768 : 8192;
+        reasoning = id.includes("thinking");
+      } else if (id.includes("qwen-3.7-max")) {
+        contextWindow = 1000000;
+        maxTokens = 32768; 
+        reasoning = true;
+      } else if (id.includes("mimo-v2.5-pro") || id.includes("mimo")) {
+        contextWindow = 1100000;
+        maxTokens = 1000000; // 1.0M max output tokens from vercel docs
+        reasoning = true;
+      } else if (id.includes("gpt-5.6")) {
+        contextWindow = 1050000;
+        maxTokens = 128000;
+        reasoning = true;
+      } else if (id.includes("claude")) {
+        contextWindow = 2000000; // Claude 3.5 has 200k
+        maxTokens = 8192;
+        reasoning = id.includes("opus") || id.includes("sonnet");
+      } else if (id.includes("gpt-5")) {
+        contextWindow = 200000;
+        maxTokens = 32768;
+        reasoning = true;
+      } else if (id.includes("o1") || id.includes("o3")) {
+        contextWindow = 128000;
+        maxTokens = 100000;
+        reasoning = true;
+      } else if (id.includes("qwen-3") || id.includes("qwen-2.5-max")) {
+        contextWindow = 128000;
+        maxTokens = 32768;
+        reasoning = true;
+      } else if (id.includes("deepseek-v4") || id.includes("deepseek-r1")) {
+        contextWindow = 128000;
+        maxTokens = 32768;
+        reasoning = id.includes("pro") || id.includes("r1");
+      } else if (id.includes("gpt-4")) {
+        contextWindow = 128000;
+        maxTokens = 4096;
+        reasoning = false;
+      } else {
+        // Fallback checks for unknown/newer models
+        reasoning = id.includes("opus") || id.includes("sonnet") || id.includes("pro") || id.includes("max") || id.includes("thinking") || id.includes("reasoning");
+        maxTokens = reasoning ? 32768 : 8192;
+      }
 
       return {
         id,
