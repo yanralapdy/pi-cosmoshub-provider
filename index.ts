@@ -86,7 +86,7 @@ async function fetchCosmosHubModels(apiKey: string): Promise<Array<{ id: string;
     return [
       { id: "qwen-3.7-max", name: "Qwen 3.7 Max", reasoning: true, contextWindow: 128000, maxTokens: 32768 },
       { id: "claude-opus-4.8", name: "Claude Opus 4.8", reasoning: true, contextWindow: 200000, maxTokens: 32768 },
-      { id: "deepseek-v4-pro", name: "DeepSeek V4 Pro", reasoning: true, contextWindow: 128000, maxTokens: 32768 },
+      { id: "deepseek-v4-pro", name: "DeepSeek V4 Pro", reasoning: true, contextWindow: 1000000, maxTokens: 32768 },
     ];
   }
 }
