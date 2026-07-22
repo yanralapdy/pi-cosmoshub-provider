@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- Curated context-window and maximum-output metadata for all 24 CosmosHub models
+- Provider source URLs and knowledge-cutoff metadata for documented GPT models
+- Conservative fallback limits for unknown models
+
+### Changed
+- Replace model-ID limit heuristics with the checked-in metadata catalog
+
 ## [1.0.0] - 2026-07-17
 
 ### Added
